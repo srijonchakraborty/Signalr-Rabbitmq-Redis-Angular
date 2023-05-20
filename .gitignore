@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/RabbitConsumerForNotification/obj/Debug/net7.0
+/SignalRPractice/obj/Debug/net7.0
+/SignalRPractice/obj
+/RabbitConsumerForNotification/obj
+/.vs/SignalRPracticeWithRedisAndRabbitMq/FileContentIndex
+/.vs/SignalRPracticeWithRedisAndRabbitMq
