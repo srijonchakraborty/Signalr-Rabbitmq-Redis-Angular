@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRPractice", "SignalRPractice\SignalRPractice.csproj", "{68464D86-CBCD-4F73-9F40-120365070FEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRPractice", "SignalRPractice\SignalRPractice.csproj", "{68464D86-CBCD-4F73-9F40-120365070FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitConsumerForNotification", "RabbitConsumerForNotification\RabbitConsumerForNotification.csproj", "{EEC10C91-0DB9-4BD8-9B93-414131C3168F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitConsumerForNotification", "RabbitConsumerForNotification\RabbitConsumerForNotification.csproj", "{EEC10C91-0DB9-4BD8-9B93-414131C3168F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientAppNode", "ClientAppNode", "{E8BDEFA6-6C1E-40B7-B29C-6A3A49014C12}"
+	ProjectSection(SolutionItems) = preProject
+		ClientApp\package.json = ClientApp\package.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
