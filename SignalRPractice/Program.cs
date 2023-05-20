@@ -1,3 +1,5 @@
+using SignalRPractice.Hubs;
+
 namespace SignalRPractice
 {
     public class Program
@@ -29,7 +31,7 @@ namespace SignalRPractice
 
 
             app.MapControllers();
-            app.MapHub<ChatHub>("/chatHub");
+            app.MapHub<NotificationHub>("/notification-hub");
             app.Run();
         }
     }

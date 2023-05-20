@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRPractice", "SignalRP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitConsumerForNotification", "RabbitConsumerForNotification\RabbitConsumerForNotification.csproj", "{EEC10C91-0DB9-4BD8-9B93-414131C3168F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientAppNode", "ClientAppNode", "{E8BDEFA6-6C1E-40B7-B29C-6A3A49014C12}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientApplication", "ClientApplication", "{DDEEA989-BEAD-4917-9ED7-3FF21B8D56D5}"
 	ProjectSection(SolutionItems) = preProject
-		ClientApp\package.json = ClientApp\package.json
+		package.json = package.json
 	EndProjectSection
 EndProject
 Global
