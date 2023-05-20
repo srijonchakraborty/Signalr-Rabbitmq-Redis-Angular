@@ -14,7 +14,7 @@ namespace RabbitConsumerForNotification
                
             Console.WriteLine($"Setting value: {JsonConvert.SerializeObject(CustomConstant.CurrentAppSettings)}");
 
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("Hello, World!!");
         }
     }
 }
