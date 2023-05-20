@@ -7,10 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRPractice", "SignalRP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitConsumerForNotification", "RabbitConsumerForNotification\RabbitConsumerForNotification.csproj", "{EEC10C91-0DB9-4BD8-9B93-414131C3168F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientApplication", "ClientApplication", "{DDEEA989-BEAD-4917-9ED7-3FF21B8D56D5}"
-	ProjectSection(SolutionItems) = preProject
-		package.json = package.json
-	EndProjectSection
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ClientApplication", "ClientApplication\ClientApplication.esproj", "{4714C09B-40E2-454D-AC18-905EE0CF3FB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +23,12 @@ Global
 		{EEC10C91-0DB9-4BD8-9B93-414131C3168F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEC10C91-0DB9-4BD8-9B93-414131C3168F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEC10C91-0DB9-4BD8-9B93-414131C3168F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4714C09B-40E2-454D-AC18-905EE0CF3FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4714C09B-40E2-454D-AC18-905EE0CF3FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4714C09B-40E2-454D-AC18-905EE0CF3FB3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4714C09B-40E2-454D-AC18-905EE0CF3FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4714C09B-40E2-454D-AC18-905EE0CF3FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4714C09B-40E2-454D-AC18-905EE0CF3FB3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

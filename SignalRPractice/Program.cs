@@ -31,7 +31,7 @@ namespace SignalRPractice
 
 
             app.MapControllers();
-            app.MapHub<NotificationHub>("/notification-hub");
+            app.MapHub<NotificationHub>("/notificationhub");
             app.Run();
         }
     }
