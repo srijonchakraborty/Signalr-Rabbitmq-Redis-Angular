@@ -17,3 +17,5 @@
 /SignalRPractice/bin/Debug/net7.0
 /SignalRClientApp/package-lock.json
 /SignalRClientApp/README.md
+/Common/bin/Debug/net7.0
+/Common/obj
