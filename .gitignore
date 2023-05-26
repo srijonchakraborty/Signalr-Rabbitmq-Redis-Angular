@@ -9,3 +9,15 @@
 /.vs/SignalRPracticeWithRedisAndRabbitMq/FileContentIndex
 /.vs/SignalRPracticeWithRedisAndRabbitMq
 /.vs/ProjectEvaluation
+/ClientApplication/node_modules
+/ClientApplication/.vscode
+/ClientApplication/package-lock.json
+/RabbitConsumerForNotification/bin/Debug/net7.0/runtimes/win/lib/net7.0
+/RabbitConsumerForNotification/bin/Debug/net7.0
+/SignalRPractice/bin/Debug/net7.0
+/SignalRClientApp/package-lock.json
+/SignalRClientApp/README.md
+/Common/bin/Debug/net7.0
+/Common/obj
+/Repository/bin/Debug/net7.0
+/Repository/obj
