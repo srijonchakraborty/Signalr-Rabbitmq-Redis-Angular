@@ -50,6 +50,18 @@ namespace Common.Model
         public string QueueName { get; set; }
         public string ExchangeName { get; set; }
         public string ProducerConnectionName { get; set; }
+        public RabbitMQTaskConnection SpecificTask { get; set; }
+        
+    }
+    public class RabbitMQTaskConnection
+    {
+        public string RoutingKeyPub { get; set; }
+        public string QueueNamePub { get; set; }
+        public string ExchangeNamePub { get; set; }
+        public string RoutingKeySub { get; set; }
+        public string QueueNameSub { get; set; }
+        public string ExchangeNameSub { get; set; }
+        public string ProducerConnectionName { get; set; }
     }
     #endregion
 }

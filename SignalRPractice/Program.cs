@@ -1,10 +1,11 @@
 using Common.Model;
 using MongoDB.Driver;
+using RabbitMQ.Client;
 using Repository.Interface;
 using Repository.Repository;
 using SignalRPractice.ExtentionMethods;
 using SignalRPractice.Hubs;
-using SignalRPractice.RedisManager;
+using SignalRPractice.Services.RedisService;
 using System.Linq.Expressions;
 
 namespace SignalRPractice
@@ -15,6 +16,7 @@ namespace SignalRPractice
         {
             var builder = WebApplication.CreateBuilder(args);
             var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
+            builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
             #region Cors
             builder.Services.AddCors(options =>
@@ -55,6 +57,9 @@ namespace SignalRPractice
             });
             builder.Services.AddSingleton<IRedisService, RedisService>();
             #endregion
+
+            
+
 
             WebApplication app = builder.Build();
 
