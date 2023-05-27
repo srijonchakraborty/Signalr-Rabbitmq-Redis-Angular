@@ -26,7 +26,7 @@ namespace Common.Model
     #region MongoConnectionModel
     public class MongoConnectionModel : ConnectionStringModel
     {
-
+        public string InstanceName { get; set; }
     }
     #endregion
     #region RedisConnectionModel

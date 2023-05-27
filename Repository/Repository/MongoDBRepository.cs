@@ -18,37 +18,86 @@ namespace Repository.Repository
         }
         public async Task<T?> GetByIdAsync(string id)
         {
-            var filter = Builders<T>.Filter.Eq(IdConstantName, ObjectId.Parse(id));
-            return await _collection.Find(filter).FirstOrDefaultAsync();
+            try
+            {
+                var filter = Builders<T>.Filter.Eq(IdConstantName, id);
+                return await _collection.Find(filter).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _collection.Find(_ => true).ToListAsync();
+            try
+            {
+                return await _collection.Find(_ => true).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task AddAsync(T entity)
         {
-            await _collection.InsertOneAsync(entity);
+            try
+            {
+                await _collection.InsertOneAsync(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task UpdateAsync(T entity)
         {
-            var filter = Builders<T>.Filter.Eq(IdConstantName, (entity as dynamic)._id);
-            await _collection.ReplaceOneAsync(filter, entity);
+            try
+            {
+                var filter = Builders<T>.Filter.Eq(IdConstantName, (entity as dynamic)._id);
+                await _collection.ReplaceOneAsync(filter, entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task DeleteAsync(T entity)
         {
-            var filter = Builders<T>.Filter.Eq(IdConstantName, (entity as dynamic)._id);
-            await _collection.DeleteOneAsync(filter);
+            try
+            {
+                var filter = Builders<T>.Filter.Eq(IdConstantName, (entity as dynamic)._id);
+                await _collection.DeleteOneAsync(filter);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _collection.Find(predicate).ToListAsync();
+            try
+            {
+                return await _collection.Find(predicate).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task RemoveAsync(T entity)
         {
-            FilterDefinition<T> filter = Builders<T>.Filter.Eq(IdConstantName, entity.GetType().GetProperty(IdConstantName).GetValue(entity));
-            await _collection.DeleteOneAsync(filter);
+            try
+            {
+                FilterDefinition<T> filter = Builders<T>.Filter.Eq(IdConstantName, entity.GetType().GetProperty(IdConstantName).GetValue(entity));
+                await _collection.DeleteOneAsync(filter);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

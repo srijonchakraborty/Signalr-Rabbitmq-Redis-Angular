@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Model;
+using RabbitConsumerForNotification.Builder;
 using RabbitConsumerForNotification.Constants;
+using RabbitConsumerForNotification.DBService;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -16,7 +18,12 @@ namespace RabbitConsumerForNotification.Consumers
         private static IModel _myChannelSub;
         private static IConnection _rabbitMqConnectionPub;
         private static IModel _myChannelPub;
-        private static void CreateConnection()
+        private readonly ISpecificTaskService specificTaskService;
+        public SpecificTaskConsumer(ISpecificTaskService specificTaskService)
+        {
+            this.specificTaskService= specificTaskService;
+        }
+        private void CreateConnection()
         {
             try
             {
@@ -59,7 +66,7 @@ namespace RabbitConsumerForNotification.Consumers
                 Console.WriteLine(ex.Message);
             }
         }
-        private static void ConnectPub()
+        private void ConnectPub()
         {
             try
             {
@@ -90,7 +97,7 @@ namespace RabbitConsumerForNotification.Consumers
                 Console.WriteLine(ex.Message);
             }
         }
-        private static void ConnectSub()
+        private void ConnectSub()
         {
             try
             {
@@ -122,13 +129,13 @@ namespace RabbitConsumerForNotification.Consumers
                 Console.WriteLine(ex.Message);
             }
         }
-        private static void Connect()
+        private void Connect()
         {
             CreateConnection();
             ConnectSub();
             ConnectPub();
         }
-        internal static void StartListenToRabbitMQ()
+        internal void StartListenToRabbitMQ()
         {
             try
             {
@@ -146,7 +153,7 @@ namespace RabbitConsumerForNotification.Consumers
                 Console.WriteLine(ex.Message);
             }
         }
-        private static Task ChannelConsumer_Received(object sender, BasicDeliverEventArgs e)
+        private async Task ChannelConsumer_Received(object sender, BasicDeliverEventArgs e)
         {
             try
             {
@@ -154,16 +161,19 @@ namespace RabbitConsumerForNotification.Consumers
                 Console.WriteLine($"Received:{message}");
                 _myChannelSub.BasicAck(e.DeliveryTag, false);
                 Thread.Sleep(5000);
+                StartListenToRabbitMQ();
+                var specificTasklog= SpecificTaskLogBuilder.SpecificTaskLogBuild(message);
+                await this.specificTaskService.SaveSpecificTaskAsync(specificTasklog);
+                var specificTasklogGet =await this.specificTaskService.GetSpecificTaskByIdAsync(specificTasklog.Id);
+                var specificTasklogGetSubId= await this.specificTaskService.GetSpecificTaskBySubIdAsync(specificTasklog.SubscriptionId);
                 SendLogRunningTaskCompleted($"Long Running Task Done: {message}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            return Task.FromResult(true);
         }
-        private static void SendLogRunningTaskCompleted(string message)
+        private void SendLogRunningTaskCompleted(string message)
         {
             try
             {
