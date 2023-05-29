@@ -8,7 +8,8 @@ namespace SignalRPractice.ExtentionMethods
         {
             if (app != null)
             {
-                app.MapHub<NotificationHub>("/notificationhub"); ;
+                app.MapHub<NotificationHub>("/notificationhub");
+                app.MapHub<SpecificNotificationHub>("/specificnotificationhub");
             }
         }
     }

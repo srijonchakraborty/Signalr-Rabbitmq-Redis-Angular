@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
-namespace SignalRPractice.RedisManager
+namespace SignalRPractice.Services.RedisService
 {
     public class RedisService : IRedisService
     {
@@ -15,7 +15,7 @@ namespace SignalRPractice.RedisManager
             var json = _redis.GetString(key);
             if (json == null)
             {
-                return default(T);
+                return default;
             }
 
             return JsonConvert.DeserializeObject<T>(json);
@@ -25,7 +25,7 @@ namespace SignalRPractice.RedisManager
             var json = await _redis.GetStringAsync(key);
             if (json == null)
             {
-                return default(T);
+                return default;
             }
 
             return JsonConvert.DeserializeObject<T>(json);

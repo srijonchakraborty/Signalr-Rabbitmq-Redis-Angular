@@ -1,4 +1,4 @@
-﻿namespace SignalRPractice.RedisManager
+﻿namespace SignalRPractice.Services.RedisService
 {
     public interface IRedisService
     {
