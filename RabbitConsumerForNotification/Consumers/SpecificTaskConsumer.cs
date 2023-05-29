@@ -14,26 +14,29 @@ namespace RabbitConsumerForNotification.Consumers
 {
     internal class SpecificTaskConsumer
     {
+        #region Private Fields
         private static IConnection _rabbitMqConnectionSub;
         private static IModel _myChannelSub;
         private static IConnection _rabbitMqConnectionPub;
         private static IModel _myChannelPub;
         private readonly ISpecificTaskService specificTaskService;
+        private readonly string hostName = CustomConstant.CurrentAppSettings?.RabbitMQConnection.HostName;
+        private readonly string customport = CustomConstant.CurrentAppSettings?.RabbitMQConnection.CustomPort;
+        private readonly string userName = CustomConstant.CurrentAppSettings?.RabbitMQConnection.UserName;
+        private readonly string password = CustomConstant.CurrentAppSettings?.RabbitMQConnection.Password;
+        private readonly string virtualHost = CustomConstant.CurrentAppSettings?.RabbitMQConnection.VirtualHost;
+        private readonly string producerConnectionName = CustomConstant.CurrentAppSettings?.RabbitMQConnection.ProducerConnectionName;
+
+        #endregion
+
         public SpecificTaskConsumer(ISpecificTaskService specificTaskService)
         {
-            this.specificTaskService= specificTaskService;
+            this.specificTaskService = specificTaskService;
         }
-        private void CreateConnection()
+        private void CreateSubConnection()
         {
             try
             {
-                var hostName = CustomConstant.CurrentAppSettings?.RabbitMQConnection.HostName;
-                var customport = CustomConstant.CurrentAppSettings?.RabbitMQConnection.CustomPort;
-                var userName = CustomConstant.CurrentAppSettings?.RabbitMQConnection.UserName;
-                var password = CustomConstant.CurrentAppSettings?.RabbitMQConnection.Password;
-                var virtualHost = CustomConstant.CurrentAppSettings?.RabbitMQConnection.VirtualHost;
-                var producerConnectionName = CustomConstant.CurrentAppSettings?.RabbitMQConnection.ProducerConnectionName;
-
                 var factorySub = new ConnectionFactory()
                 {
                     HostName = hostName,
@@ -46,8 +49,16 @@ namespace RabbitConsumerForNotification.Consumers
                 factorySub.AutomaticRecoveryEnabled = true;
                 factorySub.DispatchConsumersAsync = true;
                 _rabbitMqConnectionSub = factorySub.CreateConnection(producerConnectionName);
-
-
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        private void CreatePubConnection()
+        {
+            try
+            {
                 var factoryPub = new ConnectionFactory()
                 {
                     HostName = hostName,
@@ -65,6 +76,11 @@ namespace RabbitConsumerForNotification.Consumers
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+        private void CreateConnection()
+        {
+            CreateSubConnection();
+            CreatePubConnection();
         }
         private void ConnectPub()
         {
@@ -135,24 +151,6 @@ namespace RabbitConsumerForNotification.Consumers
             ConnectSub();
             ConnectPub();
         }
-        internal void StartListenToRabbitMQ()
-        {
-            try
-            {
-                var queueName = CustomConstant.CurrentAppSettings?.RabbitMQConnection?.SpecificTask?.QueueNameSub ?? "";
-                Connect();
-                _myChannelSub = _rabbitMqConnectionSub.CreateModel();
-
-                _myChannelSub.BasicQos(0, 1, false);
-                var smsChannelConsumer = new AsyncEventingBasicConsumer(_myChannelSub);
-                smsChannelConsumer.Received += ChannelConsumer_Received; ;
-                _myChannelSub.BasicConsume(queueName, true, smsChannelConsumer);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
         private async Task ChannelConsumer_Received(object sender, BasicDeliverEventArgs e)
         {
             try
@@ -162,11 +160,11 @@ namespace RabbitConsumerForNotification.Consumers
                 _myChannelSub.BasicAck(e.DeliveryTag, false);
                 Thread.Sleep(5000);
                 StartListenToRabbitMQ();
-                var specificTasklog= SpecificTaskLogBuilder.SpecificTaskLogBuild(message);
+                var specificTasklog = SpecificTaskLogBuilder.SpecificTaskLogBuildFromJson(message);
                 await this.specificTaskService.SaveSpecificTaskAsync(specificTasklog);
-                var specificTasklogGet =await this.specificTaskService.GetSpecificTaskByIdAsync(specificTasklog.Id);
-                var specificTasklogGetSubId= await this.specificTaskService.GetSpecificTaskBySubIdAsync(specificTasklog.SubscriptionId);
-                SendLogRunningTaskCompleted($"Long Running Task Done: {message}");
+                var specificTasklogGet = await this.specificTaskService.GetSpecificTaskByIdAsync(specificTasklog.Id);
+                var specificTasklogGetSubId = await this.specificTaskService.GetSpecificTaskBySubIdAsync(specificTasklog.SubscriptionId);
+                SendLogRunningTaskCompleted(specificTasklog.SubscriptionId);
             }
             catch (Exception ex)
             {
@@ -189,6 +187,24 @@ namespace RabbitConsumerForNotification.Consumers
                                          basicProperties: properties, Encoding.UTF8.GetBytes(message));
 
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        internal void StartListenToRabbitMQ()
+        {
+            try
+            {
+                var queueName = CustomConstant.CurrentAppSettings?.RabbitMQConnection?.SpecificTask?.QueueNameSub ?? "";
+                Connect();
+                _myChannelSub = _rabbitMqConnectionSub.CreateModel();
+
+                _myChannelSub.BasicQos(0, 1, false);
+                var smsChannelConsumer = new AsyncEventingBasicConsumer(_myChannelSub);
+                smsChannelConsumer.Received += ChannelConsumer_Received; ;
+                _myChannelSub.BasicConsume(queueName, true, smsChannelConsumer);
             }
             catch (Exception ex)
             {

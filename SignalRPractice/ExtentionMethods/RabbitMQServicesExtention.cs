@@ -1,25 +1,23 @@
 ﻿using Common.Model;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Driver.Core.Connections;
 using RabbitMQ.Client;
-using SignalRPractice.Hubs;
-using SignalRPractice.Services.RabbitMQService;
-using SignalRPractice.Services.RedisService;
+using SignalRPractice.Services.RabbitMQService.Contract;
+using SignalRPractice.Services.RabbitMQService.Service;
 
 namespace SignalRPractice.ExtentionMethods
 {
     public static class RabbitMQServicesExtention
     {
-        public static void AddRabbitMqServices(this IServiceCollection services,AppSettings appSettings)
+        public static void AddRabbitMqServices(this IServiceCollection services, AppSettings appSettings)
         {
             if (services != null)
             {
-                services.AddSingleton<RabbitMQ.Client.IConnection>(sp =>
+                var customport = appSettings.RabbitMQConnection.CustomPort;
+                services.AddScoped<RabbitMQ.Client.IConnection>(sp =>
                 {
                     var factory = new ConnectionFactory
                     {
                         HostName = appSettings.RabbitMQConnection.HostName,
-                        Port = Int32.Parse(appSettings.RabbitMQConnection.CustomPort),
+                        Port = string.IsNullOrEmpty(customport) ? Protocols.DefaultProtocol.DefaultPort : Int32.Parse(customport),
                         UserName = appSettings.RabbitMQConnection.UserName,
                         Password = appSettings.RabbitMQConnection.Password,
                         VirtualHost= appSettings.RabbitMQConnection.VirtualHost,
@@ -29,7 +27,7 @@ namespace SignalRPractice.ExtentionMethods
                     };
                     return factory.CreateConnection();
                 });
-                services.AddScoped<IRabbitMQProducer, RabbitMQProducer>();
+                services.AddScoped<IRabbitMQProducerService, RabbitMQProducerService>();
             }
         }
     }

@@ -6,6 +6,7 @@ namespace SignalRPractice.Hubs
     {
         public async Task SendMessage(string user, string message)
         {
+            var item = Context;
             await Clients.All.SendAsync("TPP", user, message);
         }
     }

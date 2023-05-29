@@ -14,8 +14,19 @@ namespace RabbitConsumerForNotification.Builder
         public static void AppSettingsBuild()
         {
             CustomConstant.CurrentAppSettings = new AppSettings();
-            CustomConstant.CurrentAppSettings.RabbitMQConnection=new RabbitMQConnectionModel();
-            CustomConstant.CurrentAppSettings.MongoConnection=new MongoConnectionModel();
+            BuildRabbitMQBasic();
+            BuildSpecificTaskRabbitMQ();
+            BuildMongoConnection();
+        }
+        private static void BuildMongoConnection()
+        {
+            CustomConstant.CurrentAppSettings.MongoConnection = new MongoConnectionModel();
+            CustomConstant.CurrentAppSettings.MongoConnection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["mongodbconnection"];
+            CustomConstant.CurrentAppSettings.MongoConnection.InstanceName = System.Configuration.ConfigurationManager.AppSettings["mongodbInstanceName"];
+        }
+        private static void BuildRabbitMQBasic()
+        {
+            CustomConstant.CurrentAppSettings.RabbitMQConnection = new RabbitMQConnectionModel();
             CustomConstant.CurrentAppSettings.RabbitMQConnection.HostName = System.Configuration.ConfigurationManager.AppSettings["hostName"];
             CustomConstant.CurrentAppSettings.RabbitMQConnection.CustomPort = System.Configuration.ConfigurationManager.AppSettings["customport"];
             CustomConstant.CurrentAppSettings.RabbitMQConnection.UserName = System.Configuration.ConfigurationManager.AppSettings["userName"];
@@ -25,10 +36,6 @@ namespace RabbitConsumerForNotification.Builder
             CustomConstant.CurrentAppSettings.RabbitMQConnection.QueueName = System.Configuration.ConfigurationManager.AppSettings["queueName"];
             CustomConstant.CurrentAppSettings.RabbitMQConnection.ExchangeName = System.Configuration.ConfigurationManager.AppSettings["exchangeName"];
             CustomConstant.CurrentAppSettings.RabbitMQConnection.ProducerConnectionName = System.Configuration.ConfigurationManager.AppSettings["producerConnectionName"];
-            CustomConstant.CurrentAppSettings.MongoConnection.ConnectionString = System.Configuration.ConfigurationManager.AppSettings["mongodbconnection"];
-            CustomConstant.CurrentAppSettings.MongoConnection.InstanceName = System.Configuration.ConfigurationManager.AppSettings["mongodbInstanceName"];
-
-            BuildSpecificTaskRabbitMQ();
         }
         private static void BuildSpecificTaskRabbitMQ()
         {

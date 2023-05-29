@@ -1,18 +1,22 @@
 ﻿using Common.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
+using SignalRPractice.Services.RabbitMQService.Contract;
+using System.Runtime;
 using System.Text;
 
-namespace SignalRPractice.Services.RabbitMQService
+namespace SignalRPractice.Services.RabbitMQService.Service
 {
-    public class RabbitMQProducer:IRabbitMQProducer
+    public class RabbitMQProducerService : IRabbitMQProducerService
     {
-        private readonly RabbitMQ.Client.IConnection _rabbitMQConnection;
+        private readonly IConnection _rabbitMQConnection;
         private readonly AppSettings _appSettings;
-        public RabbitMQProducer(RabbitMQ.Client.IConnection rabbitMQConnection,AppSettings appSettings)
+        public RabbitMQProducerService(IConnection rabbitMQConnection, 
+                                       IOptions<AppSettings>  appSettings)
         {
             _rabbitMQConnection = rabbitMQConnection;
-            _appSettings= appSettings;
+            _appSettings = appSettings.Value;
             SetSpecificTaskConnection();
         }
         private void SetSpecificTaskConnection()
@@ -46,14 +50,14 @@ namespace SignalRPractice.Services.RabbitMQService
                 Console.WriteLine(ex.Message);
             }
         }
-        public void PublishSpecificTaskMessage(string message)
+        public async Task PublishSpecificTaskMessageAsync(string message)
         {
             try
             {
                 var exchangeName = _appSettings?.RabbitMQConnection?.SpecificTask?.ExchangeNamePub ?? "";
                 var queueName = _appSettings?.RabbitMQConnection?.SpecificTask?.QueueNamePub ?? "";
                 var routingKey = _appSettings?.RabbitMQConnection?.SpecificTask?.RoutingKeyPub ?? "";
-                
+
                 using (var channel = _rabbitMQConnection.CreateModel())
                 {
                     channel.ConfirmSelect();

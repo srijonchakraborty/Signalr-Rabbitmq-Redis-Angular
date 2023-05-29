@@ -13,6 +13,10 @@ export class SignalRNotificationService {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(environment.signalrNotificationUrl) // Replace with your SignalR server URL
       .build();
+
+    this.hubConnection.onclose(() => {
+      console.log('SignalR connection closed');
+    });
   }
 
   startSignalRConnection(): void {
@@ -22,6 +26,7 @@ export class SignalRNotificationService {
       })
       .catch((err) => console.error('Error starting SignalR connection:', err));
   }
+
 
   stopSignalRConnection(): void {
     this.hubConnection.stop()
@@ -34,7 +39,9 @@ export class SignalRNotificationService {
   // Method to send a message to the SignalR server
   sendSignalRMessage(message: string): void {
     this.hubConnection.invoke(environment.signalrNotificationMethodName, 'Srijon', 'Hello!')
-      .catch((err) => console.error('Error sending message:', err));
+      .catch((err) =>
+        console.error('Error sending message:', err),
+      );
   }
 
   processIncomingMessage(): void {

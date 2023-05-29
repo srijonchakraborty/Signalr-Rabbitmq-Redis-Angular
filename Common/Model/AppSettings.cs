@@ -13,6 +13,15 @@ namespace Common.Model
         public RedisConnectionModel RedisConnection { get; set; }
         public RabbitMQConnectionModel RabbitMQConnection { get; set; }
         public MongoConnectionModel MongoConnection { get; set; }
+        public SignalRModel SignalRValue { get; set; }
+    }
+    #endregion
+
+
+    #region SignalRModel
+    public class SignalRModel
+    {
+        public string SpecificNotificationReceiveMethod { get; set; }
     }
     #endregion
 
@@ -62,6 +71,7 @@ namespace Common.Model
         public string QueueNameSub { get; set; }
         public string ExchangeNameSub { get; set; }
         public string ProducerConnectionName { get; set; }
+        public string ClientRemoteMethod { get; set; }
     }
     #endregion
 }

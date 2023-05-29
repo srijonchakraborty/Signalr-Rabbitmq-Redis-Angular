@@ -31,5 +31,6 @@ namespace Common.Model
         [BsonElement("CreatedDateTime")]
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime CreatedDateTime { get; set; }
+
     }
 }

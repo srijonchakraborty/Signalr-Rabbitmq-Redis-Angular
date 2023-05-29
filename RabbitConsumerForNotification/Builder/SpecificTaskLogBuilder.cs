@@ -1,4 +1,5 @@
-﻿using Common.Model;
+﻿using Common.DTO;
+using Common.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,15 @@ namespace RabbitConsumerForNotification.Builder
                Message= message
             };
             return specificTask;
+        }
+        public static SpecificTaskLog SpecificTaskLogBuildFromJson(string message)
+        {
+            var receivedMessage = Newtonsoft.Json.JsonConvert.DeserializeObject<SpecificTaskLog>(message);
+            if (string.IsNullOrWhiteSpace(receivedMessage.Id))
+            {
+                receivedMessage.Id = Guid.NewGuid().ToString();
+            }
+            return receivedMessage;
         }
     }
 }
