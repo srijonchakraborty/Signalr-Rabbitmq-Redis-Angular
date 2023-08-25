@@ -19,14 +19,14 @@ Additionally, I have also used docker to install mongdb, Redis and RabbitMQ. Thi
 
 ## Introduction
 
-Explore microservices using SignalR, RabbitMQ, Redis, and Angular. Gain hands-on experience with real-time communication, asynchronous messaging, and efficient caching.
+Explore microservices using SignalR, RabbitMQ, Redis, and Angular. Gain hands-on experience with real-time communication, asynchronous messaging, and efficient caching. 
 
 ## Technologies Used
 
-- **SignalR**: Implement real-time communication between microservices.
-- **RabbitMQ**: Enable asynchronous communication through message queues.
-- **Redis**: Optimize data retrieval and performance with in-memory caching.
-- **Angular**: Build interactive and responsive user interfaces.
+- **SignalR**: Implement real-time communication between microservices. Though I have some previous experience with TCP and UDP application in c# but this is my first web socket based application.
+- **RabbitMQ**: Enable asynchronous communication through message queues. To enable microservice facility I have used this messaging bus.
+- **Redis**: Optimize data retrieval and performance with in-memory caching. TThis is my first redis based application and I am very new to this technology
+- **Angular**: Build interactive and responsive user interfaces. However, in this project I just use it to use signalr library and I have a prior knowledge about angular
 
 ## Features
 
